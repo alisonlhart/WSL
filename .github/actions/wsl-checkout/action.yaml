@@ -27,10 +27,10 @@ runs:
           export GIT_TERMINAL_PROMPT=0
 
           mkdir -p ${{ inputs.working-dir }}
-          git clone --quiet --depth 1 https://github.com/${{ github.repository }}.git ${{ inputs.working-dir }}
+          git clone --quiet https://github.com/${{ github.repository }}.git ${{ inputs.working-dir }}
 
           cd ${{ inputs.working-dir }}
-          git fetch --quiet --depth 1 --no-tags --prune --update-head-ok origin +${{ github.sha }}:${{ github.ref }}
+          git fetch --quiet --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +${{ github.sha }}:${{ github.ref }}
           git checkout --quiet ${{ github.sha }}
 
           if [ "${{ inputs.submodules }}" = true ] ; then
